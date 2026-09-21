@@ -14,12 +14,16 @@ import {
   X,
 } from 'lucide-react'
 
-const products = [
-  { name: 'Linen wrap dress', category: 'Dresses', size: 'S', price: 2400, image: 'https://images.unsplash.com/photo-1595777457583-95e059d581b8?auto=format&fit=crop&w=900&q=85', tone: 'New in' },
-  { name: 'Relaxed denim jacket', category: 'Jackets', size: 'M', price: 1800, image: 'https://images.unsplash.com/photo-1543076447-215ad9ba6923?auto=format&fit=crop&w=900&q=85', tone: 'One only' },
-  { name: 'Soft cotton shirt', category: 'Tops', size: 'M', price: 1200, image: 'https://images.unsplash.com/photo-1603252110481-7ba873bf42ab?auto=format&fit=crop&w=900&q=85', tone: 'New in' },
-  { name: 'Pleated midi skirt', category: 'Skirts', size: 'S', price: 1600, image: 'https://images.unsplash.com/photo-1583496661160-fb5886a13d27?auto=format&fit=crop&w=900&q=85', tone: 'One only' },
-]
+type Product = {
+  id: string
+  name: string
+  category: string
+  size: string
+  price_kes: number
+  image_url: string
+  badge: string
+  stock_quantity: number
+}
 
 const categories = [
   { name: 'Dresses', image: 'https://images.unsplash.com/photo-1595777457583-95e059d581b8?auto=format&fit=crop&w=700&q=80' },
@@ -30,7 +34,7 @@ const categories = [
 
 const money = (value: number) => `KSh ${value.toLocaleString('en-KE')}`
 
-export function ThriftEditHome() {
+export function ThriftEditHome({ products }: { products: Product[] }) {
   const [menuOpen, setMenuOpen] = useState(false)
   const [searchOpen, setSearchOpen] = useState(false)
   const [search, setSearch] = useState('')
@@ -73,7 +77,7 @@ export function ThriftEditHome() {
       <section id="shop" className="mx-auto max-w-7xl px-5 py-16 sm:px-8 lg:px-12 lg:py-24">
         <div className="mb-8 flex items-end justify-between border-b border-[#ded9d0] pb-5"><div><p className="mb-2 text-[10px] font-semibold uppercase tracking-[0.2em] text-[#9b7455]">Just in</p><h2 className="font-serif text-4xl tracking-[-0.045em] sm:text-5xl">New arrivals</h2></div><a href="#shop" className="hidden items-center gap-2 text-[11px] font-semibold uppercase tracking-[0.15em] text-[#625950] sm:flex">View all <ArrowRight size={14} /></a></div>
         {search && <p className="mb-6 text-sm text-[#81776d]">Showing {filtered.length} result{filtered.length === 1 ? '' : 's'} for “{search}”</p>}
-        <div className="grid grid-cols-2 gap-x-3 gap-y-8 sm:grid-cols-2 sm:gap-x-5 lg:grid-cols-4">{filtered.map((product) => <article key={product.name} className="group"><div className="relative aspect-[0.78] overflow-hidden bg-[#ebe6dc]"><img src={product.image} alt={product.name} className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-[1.03]" /><button aria-label={`Save ${product.name}`} className="absolute right-3 top-3 rounded-full bg-[#f9f7f2]/85 p-2 text-[#4d463f] opacity-0 transition-opacity group-hover:opacity-100"><Heart size={16} strokeWidth={1.6} /></button><span className="absolute bottom-3 left-3 bg-[#f9f7f2]/90 px-2.5 py-1 text-[9px] font-semibold uppercase tracking-[0.15em] text-[#6c6258]">{product.tone}</span></div><div className="pt-3"><div className="flex items-start justify-between gap-2"><h3 className="font-serif text-[17px] leading-tight sm:text-lg">{product.name}</h3><p className="whitespace-nowrap text-[13px] font-medium">{money(product.price)}</p></div><p className="mt-1 text-[11px] uppercase tracking-[0.13em] text-[#8b8177]">{product.category} · Size {product.size}</p></div></article>)}</div>
+        <div className="grid grid-cols-2 gap-x-3 gap-y-8 sm:grid-cols-2 sm:gap-x-5 lg:grid-cols-4">{filtered.map((product) => <article key={product.name} className="group"><div className="relative aspect-[0.78] overflow-hidden bg-[#ebe6dc]"><img src={product.image_url} alt={product.name} className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-[1.03]" /><button aria-label={`Save ${product.name}`} className="absolute right-3 top-3 rounded-full bg-[#f9f7f2]/85 p-2 text-[#4d463f] opacity-0 transition-opacity group-hover:opacity-100"><Heart size={16} strokeWidth={1.6} /></button><span className="absolute bottom-3 left-3 bg-[#f9f7f2]/90 px-2.5 py-1 text-[9px] font-semibold uppercase tracking-[0.15em] text-[#6c6258]">{product.badge}</span></div><div className="pt-3"><div className="flex items-start justify-between gap-2"><h3 className="font-serif text-[17px] leading-tight sm:text-lg">{product.name}</h3><p className="whitespace-nowrap text-[13px] font-medium">{money(product.price_kes)}</p></div><p className="mt-1 text-[11px] uppercase tracking-[0.13em] text-[#8b8177]">{product.category} · Size {product.size}</p></div></article>)}</div>
       </section>
 
       <section id="categories" className="bg-[#e8e1d6] px-5 py-16 sm:px-8 lg:px-12 lg:py-24"><div className="mx-auto max-w-7xl"><div className="mb-8 flex items-end justify-between"><div><p className="mb-2 text-[10px] font-semibold uppercase tracking-[0.2em] text-[#9b7455]">Explore by mood</p><h2 className="font-serif text-4xl tracking-[-0.045em] sm:text-5xl">Find your feel</h2></div></div><div className="grid grid-cols-2 gap-3 lg:grid-cols-4 lg:gap-5">{categories.map((category, index) => <a href="#shop" key={category.name} className={`group relative aspect-[0.82] overflow-hidden bg-[#d5cbc0] ${index === 1 ? 'lg:translate-y-8' : ''}`}><img src={category.image} alt={`${category.name} collection`} className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105" /><div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-[#221d1a]/70 to-transparent p-4 pt-14"><span className="font-serif text-2xl text-white">{category.name}</span><ArrowRight className="ml-2 inline text-white" size={16} /></div></a>)}</div></div></section>
