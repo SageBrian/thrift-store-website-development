@@ -38,7 +38,7 @@ export function ThriftEditHome({ products }: { products: Product[] }) {
   const [menuOpen, setMenuOpen] = useState(false)
   const [searchOpen, setSearchOpen] = useState(false)
   const [search, setSearch] = useState('')
-  const filtered = useMemo(() => products.filter((product) => product.name.toLowerCase().includes(search.toLowerCase())), [search])
+  const filtered = useMemo(() => products.filter((product) => product.name.toLowerCase().includes(search.toLowerCase())), [products, search])
 
   return (
     <main className="min-h-screen bg-[#f9f7f2] text-[#2c2926]">
